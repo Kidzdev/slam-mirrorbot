@@ -83,6 +83,7 @@ except:
 
 try:
     BOT_TOKEN = getConfig('BOT_TOKEN')
+    IMAGE_URL = getConfig('IMG_URL')
     parent_id = getConfig('GDRIVE_FOLDER_ID')
     DOWNLOAD_DIR = getConfig('DOWNLOAD_DIR')
     if DOWNLOAD_DIR[-1] != '/' or DOWNLOAD_DIR[-1] != '\\':
