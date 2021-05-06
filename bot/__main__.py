@@ -8,9 +8,9 @@ from sys import executable
 from datetime import datetime
 import pytz
 import time
-from telegram import ParseMode
+from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import CommandHandler, run_async
-from bot import dispatcher, updater, botStartTime, AUTHORIZED_CHATS
+from bot import dispatcher, updater, botStartTime, AUTHORIZED_CHATS, IMAGE_URL
 from bot.helper.ext_utils import fs_utils
 from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.telegram_helper.message_utils import *
@@ -40,11 +40,11 @@ def stats(update, context):
             f'<b>Used:</b> {used}  ' \
             f'<b>Free:</b> {free}\n\n' \
             f'📊Data Usage📊\n<b>Upload:</b> {sent}\n' \
-            f'<b>Down:</b> {recv}\n\n' \
+            f'<b>Download:</b> {recv}\n\n' \
             f'<b>CPU:</b> {cpuUsage}%\n' \
             f'<b>RAM:</b> {memory}%\n' \
-            f'<b>Disk:</b> {disk}%'
-    update.effective_message.reply_photo("https://telegra.ph/file/db03910496f06094f1f7a.jpg", stats, parse_mode=ParseMode.HTML)
+            f'<b>DISK:</b> {disk}%'
+    update.effective_message.reply_photo(IMAGE_URL, stats, parse_mode=ParseMode.HTML)
 
 
 @run_async
@@ -53,7 +53,7 @@ def start(update, context):
 Bot Mirror Google Drive GRATISS!!!!
 Ketik /{BotCommands.HelpCommand} Untuk melihat perintah yang bisa digunakan
 '''
-    update.effective_message.reply_photo("https://telegra.ph/file/db03910496f06094f1f7a.jpg", start_string, parse_mode=ParseMode.MARKDOWN)
+    update.effective_message.reply_photo(IMAGE_URL, start_string, parse_mode=ParseMode.MARKDOWN)
 
 
 @run_async
@@ -65,9 +65,11 @@ def chat_list(update, context):
 
 @run_async
 def repo(update, context):
-    bot.send_message(update.message.chat_id,
-    reply_to_message_id=update.message.message_id,
-    text="Repo: https://github.com/breakdowns/slam-mirrorbot\nGroup: https://t.me/SlamMirrorSupport", disable_web_page_preview=True)
+    button = [
+    [InlineKeyboardButton("Repo", url=f"https://github.com/breakdowns/slam-mirrorbot")],
+    [InlineKeyboardButton("Support Group", url=f"https://t.me/SlamMirrorSupport")]]
+    reply_markup = InlineKeyboardMarkup(button)
+    update.effective_message.reply_photo(IMAGE_URL, reply_markup=reply_markup)
 
 
 @run_async
